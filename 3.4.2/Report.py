@@ -1,15 +1,14 @@
 import os
 import pandas as pd
 import openpyxl
-from openpyxl.styles import Border, Side, Alignment, Font
 from openpyxl.utils import get_column_letter
+from openpyxl.styles import Border, Side, Alignment, Font
 
 
 class Report:
     """
     Класс для создания Excel таблицы
     """
-
     def __init__(self, profession, years, average_salary, average_salary_profession, count_vacancies_by_year,
                  count_vacancies_by_year_prof, file_name):
         self.years = years
@@ -42,15 +41,6 @@ class Report:
         self.create_max_width(worksheet1)
         wb.save(self.file_name)
 
-    def add_border(self, worksheet, side, count_columns, rows):
-        for i in range(1, count_columns):
-            for row in rows:
-                if i == 1:
-                    worksheet[row + str(i)].alignment = Alignment(horizontal='left')
-                    worksheet[row + str(i)].font = Font(bold=True)
-                if worksheet[row + str(i)].internal_value is not None:
-                    worksheet[row + str(i)].border = Border(top=side, bottom=side, left=side, right=side)
-
     def create_max_width(self, worksheet):
         dims = {}
         for row in worksheet.rows:
@@ -61,3 +51,14 @@ class Report:
                     dims[cell.column] = len(str(cell.value))
         for col, value in dims.items():
             worksheet.column_dimensions[get_column_letter(col)].width = value + 2
+
+    def add_border(self, worksheet, side, count_columns, rows):
+        for i in range(1, count_columns):
+            for row in rows:
+                if i == 1:
+                    worksheet[row + str(i)].alignment = Alignment(horizontal='left')
+                    worksheet[row + str(i)].font = Font(bold=True)
+                if worksheet[row + str(i)].internal_value is not None:
+                    worksheet[row + str(i)].border = Border(top=side, bottom=side, left=side, right=side)
+
+

@@ -2,19 +2,18 @@ from stats import *
 
 data: List[Vacancy] = csv_filer(*csv_reader('vacancies_dif_currencies.csv'))
 
-oldest_vacancy = None
-newest_vacancy = None
+new_vac = None
+old_vac= None
+
 
 for vacancy in data:
-	if not oldest_vacancy:
-		oldest_vacancy = vacancy
-	if not newest_vacancy:
-		newest_vacancy = vacancy
+	if not old_vac:
+		old_vac = vacancy
+	if not new_vac:
+		new_vac = vacancy
+	if vacancy.published_at < old_vac.published_at:
+		old_vac = vacancy
+	if vacancy.published_at > new_vac.published_at:
+		new_vac = vacancy
 
-	if vacancy.published_at < oldest_vacancy.published_at:
-		oldest_vacancy = vacancy
-
-	if vacancy.published_at > newest_vacancy.published_at:
-		newest_vacancy = vacancy
-
-print(f'Дата публикации самой старой вакансии: {oldest_vacancy.published_at}\nДата публикации самой новой вакансии: {newest_vacancy.published_at}')
+print(f'Дата публикации самой старой вакансии: {old_vac.published_at}\nДата публикации самой новой вакансии: {new_vac.published_at}')
